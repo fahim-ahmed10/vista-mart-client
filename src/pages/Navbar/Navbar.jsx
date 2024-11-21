@@ -1,6 +1,19 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
+import { FaShoppingCart } from "react-icons/fa";
+import { IoMdLogIn } from "react-icons/io";
+import { RiLogoutCircleLine } from "react-icons/ri";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((error) => console.log(error));
+  };
+
   const navOptions = (
     <>
       <li>
@@ -55,30 +68,27 @@ const Navbar = () => {
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">{navOptions}</ul>
           </div>
-          {/* <div className="navbar-end">
+          <div className="navbar-end">
             {user ? (
               <>
                 <div className="mr-4 md:mr-8">
                   <button>
                     <Link to={"/favorites"}>
-                      <img
-                        src={favoriteLogo}
-                        className="inline-block mr-2 mb-1"
-                        alt="favorite logo"
-                        width={26}
-                      />
-                      Favorites
+                      <span>
+                        <FaShoppingCart
+                          size={26}
+                          className="inline-block mr-2 mb-1"
+                        />
+                      </span>
+                      Cart
                     </Link>
                   </button>
                 </div>
                 <div className="dropdown">
                   <div tabIndex={0} role="button" className="rounded-lg">
-                    <img
-                      className="inline-block mr-2 mb-1"
-                      src={loginUserLogo}
-                      alt="login user"
-                      width={26}
-                    />
+                    <span>
+                      <IoMdLogIn size={26} className="inline-block mr-2 mb-1" />
+                    </span>
                     {user?.displayName && <span>{user.displayName}</span>}
                   </div>
                   <ul
@@ -87,12 +97,12 @@ const Navbar = () => {
                   >
                     <li className="w-full ">
                       <button onClick={handleLogOut}>
-                        <img
-                          className="inline-block"
-                          src={logoutUserLogo}
-                          alt="logout user"
-                          width={20}
-                        />
+                        <span>
+                          <RiLogoutCircleLine
+                            size={26}
+                            className="inline-block"
+                          />
+                        </span>
                         Logout
                       </button>
                     </li>
@@ -103,18 +113,15 @@ const Navbar = () => {
               <>
                 <button>
                   <Link to={"/login"}>
-                    <img
-                      className="inline-block mr-2 mb-1"
-                      src={loginUserLogo}
-                      alt="login user"
-                      width={26}
-                    />
+                    <span>
+                      <IoMdLogIn size={26} className="inline-block mr-2 mb-1" />
+                    </span>
                     Log in
                   </Link>
                 </button>
               </>
             )}
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

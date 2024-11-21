@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import showPassLogo from "../../logos/show-pass.png";
 import hidePassLogo from "../../logos/hide-pass.png";
 import { FcGoogle } from "react-icons/fc";
 import { IoWarningOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const {
@@ -15,7 +17,12 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const { signIn } = useContext(AuthContext);
   const [isPassVisible, setIsPassVisible] = useState(false);
+  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const togglePassVisibility = () => {
     setIsPassVisible(!isPassVisible); // Toggle the password visibility
@@ -23,52 +30,52 @@ const Login = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    // signIn(data.email, data.password)
-    //   .then((result) => {
-    //     const user = result.user;
-    //     console.log(user);
-    //     //sweetalert2
-    //     Swal.fire({
-    //       title: "User logged in successfully",
-    //       showClass: {
-    //         popup: `
-    //             animate__animated
-    //             animate__fadeInUp
-    //             animate__faster
-    //           `,
-    //       },
-    //       hideClass: {
-    //         popup: `
-    //             animate__animated
-    //             animate__fadeOutDown
-    //             animate__faster
-    //           `,
-    //       },
-    //     });
-    //     navigate(from, { replace: true });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     if (error) {
-    //       Swal.fire({
-    //         title: error,
-    //         showClass: {
-    //           popup: `
-    //               animate__animated
-    //               animate__fadeInUp
-    //               animate__faster
-    //             `,
-    //         },
-    //         hideClass: {
-    //           popup: `
-    //               animate__animated
-    //               animate__fadeOutDown
-    //               animate__faster
-    //             `,
-    //         },
-    //       });
-    //     }
-    //   });
+    signIn(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        //sweetalert2
+        Swal.fire({
+          title: "User logged in successfully",
+          showClass: {
+            popup: `
+                animate__animated
+                animate__fadeInUp
+                animate__faster
+              `,
+          },
+          hideClass: {
+            popup: `
+                animate__animated
+                animate__fadeOutDown
+                animate__faster
+              `,
+          },
+        });
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error) {
+          Swal.fire({
+            title: error,
+            showClass: {
+              popup: `
+                  animate__animated
+                  animate__fadeInUp
+                  animate__faster
+                `,
+            },
+            hideClass: {
+              popup: `
+                  animate__animated
+                  animate__fadeOutDown
+                  animate__faster
+                `,
+            },
+          });
+        }
+      });
 
     reset();
     clearErrors();

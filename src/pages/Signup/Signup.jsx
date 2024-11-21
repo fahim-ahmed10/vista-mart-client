@@ -8,7 +8,7 @@ import hidePassLogo from "../../logos/hide-pass.png";
 
 //custom css
 import "./Signup.css";
-import { AuthContext } from './../../providers/AuthProvider';
+import { AuthContext } from "./../../providers/AuthProvider";
 import Swal from "sweetalert2";
 const Signup = () => {
   const {
@@ -18,10 +18,10 @@ const Signup = () => {
     watch,
     clearErrors,
     formState: { errors },
-  } = useForm(); 
+  } = useForm();
 
-  const {createUser, logOut, updateUserProfile} = useContext(AuthContext);
-    const navigate = useNavigate();
+  const { createUser, logOut, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [isNewPassVisible, setIsNewPassVisible] = useState(false);
   const [isConfirmPassVisible, setConfirmPassVisible] = useState(false);
@@ -37,65 +37,65 @@ const Signup = () => {
     setConfirmPassVisible(!isConfirmPassVisible); // Toggle the password visibility
   };
   const onSubmit = (data) => {
-     //create user
-     createUser(data.email, data.newPassword)
-     .then((result) => {
-       const loggedUser = result.user;
-       console.log(loggedUser);
-       //update user with other info
-       updateUserProfile(data.firstName)
-         .then(() => {
-           console.log("User Profile Updated");
-           //sweetalert2
-           Swal.fire({
-             title: "Account created successfully",
-             showClass: {
-               popup: `
+    //create user
+    createUser(data.email, data.newPassword)
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser);
+        //update user with other info
+        updateUserProfile(data.firstName)
+          .then(() => {
+            console.log("User Profile Updated");
+            //sweetalert2
+            Swal.fire({
+              title: "Account created successfully",
+              showClass: {
+                popup: `
            animate__animated
            animate__fadeInUp
            animate__faster
          `,
-             },
-             hideClass: {
-               popup: `
+              },
+              hideClass: {
+                popup: `
            animate__animated
            animate__fadeOutDown
            animate__faster
          `,
-             },
-           });
-           logOut()
-             .then(() => {
-               navigate("/login");
-             })
-             .catch((error) => console.log(error));
-         })
-         .catch((error) => {
-           console.log(error);
-         });
-     })
-     .catch((error) => {
-       console.log(error);
-       if (error) {
-         Swal.fire({
-           title: error,
-           showClass: {
-             popup: `
+              },
+            });
+            logOut()
+              .then(() => {
+                navigate("/login");
+              })
+              .catch((error) => console.log(error));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error) {
+          Swal.fire({
+            title: error,
+            showClass: {
+              popup: `
              animate__animated
              animate__fadeInUp
              animate__faster
            `,
-           },
-           hideClass: {
-             popup: `
+            },
+            hideClass: {
+              popup: `
              animate__animated
              animate__fadeOutDown
              animate__faster
            `,
-           },
-         });
-       }
-     });
+            },
+          });
+        }
+      });
 
     reset(); //This will clear all the fields
     clearErrors();
