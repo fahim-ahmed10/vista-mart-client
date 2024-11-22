@@ -17,7 +17,7 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const { signIn } = useContext(AuthContext);
+  const { signIn, googleLogin } = useContext(AuthContext);
   const [isPassVisible, setIsPassVisible] = useState(false);
   
   const navigate = useNavigate();
@@ -27,6 +27,11 @@ const Login = () => {
   const togglePassVisibility = () => {
     setIsPassVisible(!isPassVisible); // Toggle the password visibility
   };
+
+  const handleGoogleLogin = async () => {
+    await googleLogin();
+    navigate("/");
+  }
 
   const onSubmit = (data) => {
     console.log(data);
@@ -104,7 +109,7 @@ const Login = () => {
               </Link>
             </p>
             <div className="w-full">
-              <button className="flex gap-4 items-center justify-center w-full input input-bordered focus:outline-none focus:ring-1 focus:ring-blue-500">
+              <button onClick={handleGoogleLogin} className="flex gap-4 items-center justify-center w-full input input-bordered focus:outline-none focus:ring-1 focus:ring-blue-500">
                 <div>
                   <FcGoogle size={30} color="green" />
                 </div>

@@ -20,7 +20,7 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const { createUser, logOut, updateUserProfile } = useContext(AuthContext);
+  const { createUser, googleLogin,  logOut, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [isNewPassVisible, setIsNewPassVisible] = useState(false);
@@ -28,6 +28,12 @@ const Signup = () => {
 
   // Watch the password value from the form
   const newPassword = watch("newPassword", "");
+
+  //goole login 
+  const handleGoogleLogin = async () => {
+    await googleLogin();
+    navigate("/");
+  }
 
   const toggleNewPassVisibility = () => {
     setIsNewPassVisible(!isNewPassVisible); // Toggle the password visibility
@@ -102,7 +108,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex bg-base-200 justify-center items-start lg:items-center min-h-screen fontPoppins px-2 md:px-4 pt-8 md:pt-8 lg:pt-20">
+    <div className="flex bg-base-200 justify-center items-start lg:items-center min-h-screen fontPoppins px-2 md:px-4 pt-8 md:pt-8 lg:pt-20 pb-20">
       <div className="hero-content items-start flex-col md:flex-col lg:flex-row gap-10 lg:gap-20 px-2 md:px-10">
         <div className="w-full sm:max-w-sm md:max-w-lg lg:pt-20">
           <div className="flex items-center gap-1">
@@ -123,7 +129,7 @@ const Signup = () => {
               </Link>
             </p>
             <div className="w-full">
-              <button className="flex gap-4 items-center justify-center w-full input input-bordered focus:outline-none focus:ring-1 focus:ring-blue-500">
+              <button onClick={handleGoogleLogin} className="flex gap-4 items-center justify-center w-full input input-bordered focus:outline-none focus:ring-1 focus:ring-blue-500">
                 <div>
                   <FcGoogle size={30} color="green" />
                 </div>
