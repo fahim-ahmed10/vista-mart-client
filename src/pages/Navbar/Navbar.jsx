@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <div className="pb-16">
-      <div className="fixed z-10 top-0 left-0 right-0 border-b-2">
+      <div className="fixed z-50 top-0 left-0 right-0 w-full border-b-2">
         <div className="navbar max-w-screen-2xl mx-auto navBgColor fontPoppins px-4 md:px-10 lg:px-16">
           <div className="navbar-start gap-4 md:gap-6 lg:gap-0 lg:justify-start">
             <div className="dropdown">

@@ -75,7 +75,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       return unSubscribe(); //we have to return to stop waching if the application is stopped
     };
-  }, []);
+  }, [axiosSecure]);
 
   const authInfo = {
     user,

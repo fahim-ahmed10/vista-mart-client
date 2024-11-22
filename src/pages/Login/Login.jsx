@@ -19,7 +19,8 @@ const Login = () => {
 
   const { signIn, googleLogin } = useContext(AuthContext);
   const [isPassVisible, setIsPassVisible] = useState(false);
-  
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -29,14 +30,29 @@ const Login = () => {
   };
 
   const handleGoogleLogin = async () => {
-    await googleLogin();
-    navigate("/");
-  }
+    try {
+      setLoading(true);
+      await googleLogin();
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.error("Google login failed:", error);
+      Swal.fire({
+        title: "Google login failed",
+        text: error.message,
+        icon: "error",
+        confirmButtonText: "Try Again",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const onSubmit = (data) => {
     console.log(data);
+    setLoading(true);
     signIn(data.email, data.password)
       .then((result) => {
+        setLoading(false);
         const user = result.user;
         console.log(user);
         //sweetalert2
@@ -80,14 +96,16 @@ const Login = () => {
             },
           });
         }
+      })
+      .finally(() => {
+        setLoading(false);
+        reset();
+        clearErrors();
       });
-
-    reset();
-    clearErrors();
   };
 
   return (
-    <div className="hero bg-base-200 min-h-screen fontPoppins px-2 md:px-4 pt-8 md:pt-8 lg:pt-20">
+    <div className="hero bg-base-200 min-h-screen fontPoppins z-10 px-2 md:px-4 pt-8 md:pt-8 lg:pt-20">
       <div className="hero-content flex-col md:flex-col lg:flex-row gap-10 lg:gap-20 px-2 md:px-10">
         <div className="w-full sm:max-w-sm md:max-w-lg">
           <div className="flex items-center gap-1">
@@ -109,7 +127,10 @@ const Login = () => {
               </Link>
             </p>
             <div className="w-full">
-              <button onClick={handleGoogleLogin} className="flex gap-4 items-center justify-center w-full input input-bordered focus:outline-none focus:ring-1 focus:ring-blue-500">
+              <button
+                onClick={handleGoogleLogin}
+                className="flex gap-4 items-center justify-center w-full input input-bordered focus:outline-none focus:ring-1 focus:ring-blue-500"
+              >
                 <div>
                   <FcGoogle size={30} color="green" />
                 </div>
