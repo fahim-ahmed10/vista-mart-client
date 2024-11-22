@@ -1,4 +1,7 @@
 import { useForm } from "react-hook-form";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const AddProducts = () => {
   const {
@@ -8,9 +11,51 @@ const AddProducts = () => {
     clearErrors,
     formState: { errors },
   } = useForm();
+  const { user, loading } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+  if (loading) {
+    return <div>Loading...</div>; // Display a loader while data is being fetched
+  }
 
   const onSubmit = (data) => {
-    console.log(data);
+    const title = data.title;
+    const brand = data.brand;
+    const price = parseFloat(data.price);
+    const stock = parseFloat(data.stock);
+    const category = data.category;
+    const description = data.description;
+    const sellerEmail = user.email;
+
+    const product = {
+      title,
+      brand,
+      price,
+      stock,
+      category,
+      description,
+      sellerEmail,
+    };
+
+    const token = localStorage.getItem("access-token");
+
+    axiosSecure
+      .post("/add-products", product, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.insertedId) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Product inserted successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
 
     reset();
     clearErrors();
@@ -79,7 +124,7 @@ const AddProducts = () => {
             )}
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4 my-4">
           {/* price */}
           <div className="form-control relative">
             <label
@@ -167,6 +212,35 @@ const AddProducts = () => {
               </div>
             )}
           </div>
+        </div>
+        {/* Image url */}
+        <div className="form-control relative">
+          <label
+            htmlFor="imageURL"
+            className="labelTextClr text-sm md:text-base font-medium pb-1"
+          >
+            Image URL
+          </label>
+          <input
+            type="text"
+            {...register("imageURL", {
+              required: {
+                value: true,
+                message: "Image URL must not be empty",
+              },
+            })}
+            placeholder="Enter product description"
+            className={`text-sm md:text-base input input-bordered focus:outline-none focus:ring-1 pr-10 ${
+              errors.imageURL ? "focus:ring-red-500" : "focus:ring-blue-500"
+            }`}
+          />
+          {errors.imageURL && (
+            <div className="pt-1">
+              <span className="text-red-600 text-sm">
+                {errors.imageURL.message}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* description */}

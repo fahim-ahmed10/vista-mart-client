@@ -28,7 +28,10 @@ const Login = () => {
   const togglePassVisibility = () => {
     setIsPassVisible(!isPassVisible); // Toggle the password visibility
   };
-
+  
+  if (loading) {
+    return <div>Loading...</div>; // Display a loader while data is being fetched
+  }
   const handleGoogleLogin = async () => {
     try {
       setLoading(true);
@@ -48,7 +51,6 @@ const Login = () => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
     setLoading(true);
     signIn(data.email, data.password)
       .then((result) => {
