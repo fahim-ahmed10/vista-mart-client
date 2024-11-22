@@ -4,6 +4,7 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { FaShoppingCart } from "react-icons/fa";
 import { IoMdLogIn } from "react-icons/io";
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { MdOutlineDashboard } from "react-icons/md";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -73,7 +74,7 @@ const Navbar = () => {
               <>
                 <div className="mr-4 md:mr-8">
                   <button>
-                    <Link to={"/favorites"}>
+                    <Link to={"/cart"}>
                       <span>
                         <FaShoppingCart
                           size={26}
@@ -95,6 +96,17 @@ const Navbar = () => {
                     tabIndex={0}
                     className="menu menu-sm dropdown-content right-0 items-start hover:bg-white bg-gray-100 text-black rounded-box z-[1] mt-3 w-52 p-2 py-5 shadow"
                   >
+                    <li className="w-full ">
+                      <Link to="/dashboard/overview">
+                        <span>
+                          <MdOutlineDashboard
+                            size={26}
+                            className="inline-block"
+                          />
+                        </span>
+                        Dashboard
+                      </Link>
+                    </li>
                     <li className="w-full ">
                       <button onClick={handleLogOut}>
                         <span>
