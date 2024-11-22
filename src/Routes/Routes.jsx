@@ -6,6 +6,8 @@ import Login from './../pages/Login/Login';
 import DashboardLayout from "../Layouts/DashboardLayout";
 import PrivateRoutes from './PrivateRoutes';
 import Overview from "../pages/Dashboard/Overview";
+import SellerRoutes from "./SellerRoutes";
+import MyProducts from "../pages/Seller/MyProducts";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +35,15 @@ export const router = createBrowserRouter([
       {
         path: '/dashboard/overview',
         element: <Overview/>
+      },
+      //seller routes
+      {
+        path: '/dashboard/my-products',
+        element: <SellerRoutes><MyProducts/></SellerRoutes>
+      },
+      {
+        path: '/dashboard/add-products',
+        element: <SellerRoutes><MyProducts/></SellerRoutes>
       },
     ],
   }
