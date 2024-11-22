@@ -8,6 +8,7 @@ import PrivateRoutes from './PrivateRoutes';
 import Overview from "../pages/Dashboard/Overview";
 import SellerRoutes from "./SellerRoutes";
 import MyProducts from "../pages/Seller/MyProducts";
+import AddProducts from "../pages/Seller/AddProducts";
 
 export const router = createBrowserRouter([
   {
@@ -43,7 +44,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/dashboard/add-products',
-        element: <SellerRoutes><MyProducts/></SellerRoutes>
+        element: <SellerRoutes><AddProducts/></SellerRoutes>
       },
     ],
   }

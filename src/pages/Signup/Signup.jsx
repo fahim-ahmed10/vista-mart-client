@@ -73,7 +73,7 @@ const Signup = () => {
           }
         })
         //update user with other info
-        updateUserProfile(data.firstName)
+        updateUserProfile(data.firstName.toLowerCase())
           .then(() => {
             console.log("User Profile Updated");
             //sweetalert2
