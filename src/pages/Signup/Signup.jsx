@@ -10,6 +10,7 @@ import hidePassLogo from "../../logos/hide-pass.png";
 import "./Signup.css";
 import { AuthContext } from "./../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 const Signup = () => {
   const {
     register,
@@ -22,7 +23,8 @@ const Signup = () => {
 
   const { createUser, googleLogin,  logOut, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
-
+  const axiosSecure = useAxiosSecure();
+ 
   const [isNewPassVisible, setIsNewPassVisible] = useState(false);
   const [isConfirmPassVisible, setConfirmPassVisible] = useState(false);
 
@@ -43,11 +45,33 @@ const Signup = () => {
     setConfirmPassVisible(!isConfirmPassVisible); // Toggle the password visibility
   };
   const onSubmit = (data) => {
+    // console.log(data);
+    const firstName = data.firstName;
+    const lastName = data.lastName;
+    const email = typeof data.email === "string" ? data.email.toLowerCase() : "";
+    const role = data.role;
+    const status = role === "buyer" ? "approved" : "pending";
+    const wishList = []
+
+    const userData = {firstName, lastName, email, role, status, wishList};
+
     //create user
     createUser(data.email, data.newPassword)
       .then((result) => {
         const loggedUser = result.user;
         console.log(loggedUser);
+        
+        axiosSecure.post("/users", userData).then((res) => {
+          if(res.data.insertedId){
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Registration successful",
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
+        })
         //update user with other info
         updateUserProfile(data.firstName)
           .then(() => {
