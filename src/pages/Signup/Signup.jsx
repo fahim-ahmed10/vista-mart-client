@@ -21,21 +21,22 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const { createUser, googleLogin,  logOut, updateUserProfile } = useContext(AuthContext);
+  const { createUser, googleLogin, logOut, updateUserProfile } =
+    useContext(AuthContext);
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
- 
+
   const [isNewPassVisible, setIsNewPassVisible] = useState(false);
   const [isConfirmPassVisible, setConfirmPassVisible] = useState(false);
 
   // Watch the password value from the form
   const newPassword = watch("newPassword", "");
 
-  //goole login 
+  //goole login
   const handleGoogleLogin = async () => {
     await googleLogin();
     navigate("/");
-  }
+  };
 
   const toggleNewPassVisibility = () => {
     setIsNewPassVisible(!isNewPassVisible); // Toggle the password visibility
@@ -48,30 +49,31 @@ const Signup = () => {
     // console.log(data);
     const firstName = data.firstName;
     const lastName = data.lastName;
-    const email = typeof data.email === "string" ? data.email.toLowerCase() : "";
+    const email =
+      typeof data.email === "string" ? data.email.toLowerCase() : "";
     const role = data.role;
     const status = role === "buyer" ? "approved" : "pending";
-    const wishList = []
+    const wishList = [];
 
-    const userData = {firstName, lastName, email, role, status, wishList};
+    const userData = { firstName, lastName, email, role, status, wishList };
 
     //create user
     createUser(data.email, data.newPassword)
       .then((result) => {
         const loggedUser = result.user;
         console.log(loggedUser);
-        
+
         axiosSecure.post("/users", userData).then((res) => {
-          if(res.data.insertedId){
+          if (res.data.insertedId) {
             Swal.fire({
               position: "top-end",
               icon: "success",
               title: "Registration successful",
               showConfirmButton: false,
-              timer: 1500
+              timer: 1500,
             });
           }
-        })
+        });
         //update user with other info
         updateUserProfile(data.firstName.toLowerCase())
           .then(() => {
@@ -153,7 +155,10 @@ const Signup = () => {
               </Link>
             </p>
             <div className="w-full">
-              <button onClick={handleGoogleLogin} className="flex gap-4 items-center justify-center w-full input input-bordered focus:outline-none focus:ring-1 focus:ring-blue-500">
+              <button
+                onClick={handleGoogleLogin}
+                className="flex gap-4 items-center justify-center w-full input input-bordered focus:outline-none focus:ring-1 focus:ring-blue-500"
+              >
                 <div>
                   <FcGoogle size={30} color="green" />
                 </div>
@@ -371,6 +376,15 @@ const Signup = () => {
                       : "focus:ring-blue-500"
                   }`}
                 />
+                <ul className="list-disc pl-8 text-slate-500 pt-2 text-sm">
+                  <li>At least 8 characters.</li>
+                  <li>Includes uppercase and lowercase letters.</li>
+                  <li>Includes at least one number.</li>
+                  <li>
+                    Includes at least one special character (e.g., @, !, #,
+                    etc.).
+                  </li>
+                </ul>
                 {/* Notice logo inside input field*/}
                 <div>
                   <IoWarningOutline

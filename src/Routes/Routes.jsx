@@ -10,6 +10,8 @@ import SellerRoutes from "./SellerRoutes";
 import MyProducts from "../pages/Seller/MyProducts";
 import AddProducts from "../pages/Seller/AddProducts";
 import Products from "../pages/Products/Products";
+import AdminRoutes from "./AdminRoutes";
+import ManageUsers from './../pages/Admin/ManageUsers';
 
 export const router = createBrowserRouter([
   {
@@ -51,6 +53,10 @@ export const router = createBrowserRouter([
         path: '/dashboard/add-products',
         element: <SellerRoutes><AddProducts/></SellerRoutes>
       },
+      {
+        path: '/dashboard/manage-users',
+        element: <AdminRoutes><ManageUsers/></AdminRoutes>
+      }
     ],
   }
 ]);

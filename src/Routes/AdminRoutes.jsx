@@ -1,25 +1,24 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { PropTypes } from "prop-types";
 import useAuth from "../hooks/useAuth";
-import Loading from "../pages/Loading/Loading";
-import { PropTypes } from 'prop-types';
 import useUserData from "../hooks/useUserData";
+import { Navigate, useLocation } from "react-router-dom";
+import Loading from "../pages/Loading/Loading";
 
-const SellerRoutes = ({ children }) => {
+const AdminRoutes = ({ children }) => {
   const { user, loading } = useAuth();
-  const {userData} = useUserData();
+  const { userData } = useUserData();
   const location = useLocation();
 
   if (loading || !userData?.role) {
     return <Loading />;
   }
-  if (user && userData.role === "seller" || userData.role === "admin") {
+  if (user && userData.role === "admin") {
     return children;
   }
   return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
 };
-
 // Prop validation
-SellerRoutes.propTypes = {
+AdminRoutes.propTypes = {
   children: PropTypes.node.isRequired,
 };
-export default SellerRoutes;
+export default AdminRoutes;
