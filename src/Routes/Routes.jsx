@@ -9,6 +9,7 @@ import Overview from "../pages/Dashboard/Overview";
 import SellerRoutes from "./SellerRoutes";
 import MyProducts from "../pages/Seller/MyProducts";
 import AddProducts from "../pages/Seller/AddProducts";
+import Products from "../pages/Products/Products";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login/>
+      },
+      {
+        path: '/products',
+        element: <Products/>
       }
     ],
   },

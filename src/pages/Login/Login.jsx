@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import Loading from './../Loading/Loading';
 
 const Login = () => {
   const {
@@ -30,7 +31,7 @@ const Login = () => {
   };
   
   if (loading) {
-    return <div>Loading...</div>; // Display a loader while data is being fetched
+    return <Loading></Loading>
   }
   const handleGoogleLogin = async () => {
     try {

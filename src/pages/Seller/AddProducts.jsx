@@ -24,6 +24,7 @@ const AddProducts = () => {
     const price = parseFloat(data.price);
     const stock = parseFloat(data.stock);
     const category = data.category;
+    const imageURL = data.imageURL;
     const description = data.description;
     const sellerEmail = user.email;
 
@@ -33,6 +34,7 @@ const AddProducts = () => {
       price,
       stock,
       category,
+      imageURL,
       description,
       sellerEmail,
     };
@@ -275,7 +277,7 @@ const AddProducts = () => {
 
         <div className="form-control mt-6">
           <button className="btn bg-purple-600 hover:bg-purple-700 w-full mx-auto text-lg md:text-xl text-white">
-            Submit
+            Add Product
           </button>
         </div>
       </form>
