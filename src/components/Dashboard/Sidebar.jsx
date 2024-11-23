@@ -46,7 +46,7 @@ const Sidebar = () => {
     return <div>Loading...</div>; // Display a loader while data is being fetched
   }
 
-  if (error || !userData?.role) {
+  if (error || !userData?.role || userData?.role === "buyer") {
     return (
       <div className="bg-orange-50 border-r-2 border-slate-500 min-h-screen px-4 py-8">
         <h4 className="text-2xl md:text-xl lg:text-2xl font-bold pt-2 md:pt-2 lg:pt-3 mb-4 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
